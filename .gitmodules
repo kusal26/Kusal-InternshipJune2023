@@ -1,0 +1,9 @@
+[submodule "IntershipJune202"]
+	path = IntershipJune202
+	url = https://github.com/kusal26/CollegeManagementApp.git
+[submodule "CollegeManagementApp"]
+	path = CollegeManagementApp
+	url = https://github.com/kusal26/CollegeManagementApp.git
+[submodule "StudentManagement"]
+	path = StudentManagement
+	url = https://github.com/kusal26/winform-simple-CRUD-app-using-EF-.git

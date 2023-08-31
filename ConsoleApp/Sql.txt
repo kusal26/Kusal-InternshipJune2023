@@ -1,0 +1,99 @@
+
+
+SELECT 2 + 2 As "Sum"
+GO
+
+CREATE TABLE JuneInternship
+(
+    Id int IDENTITY(1, 1),      -- AUTO INCREMENT
+    FirstName varchar(20),
+    LastName varchar(20),
+    Age int
+)
+GO
+
+SELECT * FROM JuneInternship
+GO
+
+INSERT INTO JuneInternship VALUES ('Anaya', 'Upadhyay', 1)
+GO
+
+INSERT INTO JuneInternship VALUES ('Intern','One', 10)
+GO 5
+
+UPDATE JuneInternship SET FirstName = 'Deepesh', LastName = 'Kayastha' WHERE Id = 2
+GO
+
+UPDATE JuneInternship SET Age = 20
+GO
+
+UPDATE JuneInternship SET FirstName = 'Kusal', LastName = 'Thapa' WHERE Id = 3
+GO
+
+UPDATE JuneInternship SET FirstName = 'Ujjwal', LastName = 'Gautam' WHERE Id = 4
+GO
+
+UPDATE JuneInternship SET FirstName = 'Umang', LastName = 'Shakya' WHERE Id = 5
+GO
+
+UPDATE JuneInternship SET FirstName = 'Prasiddha', LastName = 'Shrestha' WHERE Id = 6
+GO
+
+SELECT * FROM JuneInternship
+WHERE FirstName LIKE 'U%'
+GO
+
+SELECT * FROM JuneInternship
+WHERE FirstName LIKE 'U%' OR LastName LIKE 'U%'
+GO
+
+-- Update the age to 30 if the firstname or lastname contains the letter h
+UPDATE JuneInternship
+SET Age = 30
+WHERE FirstName LIKE '%h%' OR LastName LIKE '%h%'
+GO
+
+/* Write a query to produce the following output
+Age     Count
+--------------
+20         1
+30         5
+*/
+SELECT Age, COUNT(Age) As AgeCount
+FROM JuneInternship
+GROUP BY Age
+GO
+
+-- show only agecount greater than 1
+SELECT Age, COUNT(Age) As AgeCount
+FROM JuneInternship
+GROUP BY Age
+HAVING COUNT(Age) > 1
+GO
+
+ALTER TABLE JuneInternship
+ADD Email VARCHAR(20) DEFAULT 'xyz@gmail.com'
+GO
+
+SELECT * FROM JuneInternship
+GO
+
+INSERT INTO JuneInternship (FirstName, Age) VALUES ('Test', 1)
+GO
+
+SELECT * FROM JuneInternship
+WHERE Email IS NULL
+GO
+
+SELECT * FROM JuneInternship
+WHERE Email IS NOT NULL
+GO
+
+UPDATE JuneInternship SET Email = CONCAT(FirstName, '@gmail.com')
+WHERE Email is NULL
+GO
+
+UPDATE JuneInternship SET Email = LOWER(Email)
+
+WHERE Id < 7
+GO

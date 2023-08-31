@@ -1,0 +1,208 @@
+﻿@model IEnumerable<DotNetProject.Models.ShowTiming>
+
+@{
+    ViewData["Title"] = "Book";
+}
+
+
+
+<style>
+ /*  body {
+        background-color: rgb(8, 21, 72);
+        font-family: Arial, sans-serif;
+    }*/
+
+    .container1 {
+        margin-top: 50px;
+        background-color: #50717b;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        background-color: #343a40;
+        /*background-color: #50717b;*/
+        color: #fff;
+        padding: 15px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .hall-name {
+        font-size: 24px;
+        margin-bottom: 0;
+    }
+
+    .schedule {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-top: 1px solid #ccc;
+    }
+
+    .time-slot {
+        font-size: 18px;
+        padding: 10px 20px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .time-slot:hover {
+            background-color: #e9ecef;
+        }
+
+    .days-selection {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #f0f0f0;
+        overflow-x: auto;
+    }
+
+    .day {
+        padding: 5px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .day:hover {
+            background-color: #e9ecef;
+        }
+        a{
+            text-decoration:none;
+            color:red;
+            
+        }
+
+  
+
+    .movie {
+       // background-color: #fff;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .movie-name {
+        font-size: 24px;
+        margin: 0;
+        color:black;
+    }
+
+
+</style>
+
+<body>
+    
+    <div class="container1">
+      
+        <p>
+            @{
+                string previousMovieName = null; 
+            }
+            @foreach (var item in Model)
+            {
+
+                @if (previousMovieName != item.Movies.Name)
+                {
+                    <h3 class="movie"> @Html.DisplayFor(modelItem => item.Movies.Name) </h3>
+                    previousMovieName = item.Movies.Name;
+                }
+            }
+
+        </p>
+
+        <div class="days-selection">
+            <div class="days-selection">
+                @for (var i = 0; i < 7; i++)
+                {
+                    var date = DateTime.Today.AddDays(i);
+                    var dayText = i == 0 ? "Today" : (i == 1 ? "Tomm" : date.ToString("ddMMM"));
+                    <div class="day">
+                        <a href="#">@dayText</a>
+                    </div>
+                    
+                }
+
+            </div>
+        </div>
+        @if (Model.Any(item => item.MovieHall.Timing.Any()))
+        {
+            @foreach (var item in Model)
+            {
+              
+
+                if (item.MovieHall.Timing.Any())
+                {
+
+                    <div class="header">
+                        <h1 class="hall-name">@item.MovieHall.HallName</h1>
+                    </div>
+                    <div class="schedule">
+                        @foreach (var item1 in item.MovieHall.Timing)
+                        {
+
+                         
+                            <div class="time-slot">
+                                <a style="  text-decoration:none" asp-action="Seat" asp-route-id="@item1.TimingId">  @item1.show_datetime.ToString("HH:mm tt")</a>
+  
+                            </div>
+                            
+
+                        }
+
+                    </div>
+
+
+                }
+            }
+        }
+        else
+            {
+                <div class="no-show-available">
+                    No show available.
+                </div>
+            }
+            </div>
+        
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var dayLinks = document.querySelectorAll(".day a");
+        var timeSlots = document.querySelectorAll(".time-slot");
+
+        dayLinks.forEach(function(link, index) {
+            link.addEventListener("click", function(event) {
+                event.preventDefault();
+                resetTimeSlots();
+                showSelectedDayTimeSlots(index);
+            });
+        });
+
+        function resetTimeSlots() {
+            timeSlots.forEach(function(slot) {
+                slot.style.display = "none";
+            });
+        }
+
+        function showSelectedDayTimeSlots(dayIndex) {
+            timeSlots.forEach(function(slot, index) {
+                if (index % 7 === dayIndex) {
+                    slot.style.display = "block";
+                }
+            });
+        }
+        dayLinks[0].click();
+
+     
+
+       
+    });
+</script>
